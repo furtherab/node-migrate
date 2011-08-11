@@ -214,8 +214,10 @@ function performMigration(direction) {
     log('migration', 'complete');
     process.exit();
   });
-
-  set[direction]();
+  
+  set[direction](function(err) {
+    if(err) return abort(err);
+  });
 }
 
 // invoke command
