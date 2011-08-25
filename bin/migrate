@@ -120,9 +120,12 @@ function saveConfig(obj) {
  */
 
 function migrations() {
+  var exp = /^\d+/;
   return fs.readdirSync('migrations').filter(function(file){
-    return file.match(/^\d+/);
-  }).sort().map(function(file){
+    return exp.test(file);
+  }).sort(function(a, b) {
+    return parseInt(a.match(exp).pop(), 10) - parseInt(b.match(exp).pop(), 10);
+  }).map(function(file){
     return 'migrations/' + file;
   });
 }
